@@ -13,8 +13,9 @@ fibo(7);
 let arr = [1, 2];
 let arr1 = [3, 4];
 
-const concatFn = (array, newEl) =>
-  newEl.reduce((array, newEl) => (array.push(newEl), array), array);
+const concatFn = (...array) => {
+  return array.reduce((array, newEl) => [...array, ...newEl]);
+};
 
 concatFn(arr, arr1);
 
@@ -37,7 +38,8 @@ let friends = [
 
 let adult = friends.reduce(function (newArr, person) {
   if (person.age > 18) {
-    newArr.push(person.name);
+    // newArr.push(person.name);
+    return [...newArr, person.name];
   }
   return newArr;
 }, []);
@@ -60,7 +62,7 @@ let friends = [
 ];
 let findLisa = friends.reduce((result, item) => {
   if (item.age === 30) {
-    result = item;
+    return item;
   }
   return result;
 }, null);
@@ -81,7 +83,7 @@ let arr = [1, 3, 4, 5];
 
 let includesTwo = arr.reduce((result, item) => {
   if (item === 2) {
-    result = true;
+    return true;
   }
   return result;
 }, false);
@@ -106,7 +108,7 @@ let arr = [-1, -1, 2, -2, -3];
 
 let somePositive = arr.reduce((result, item) => {
   if (item > 0) {
-    result = true;
+    return true;
   }
   return result;
 }, false);
