@@ -58,16 +58,19 @@ let friends = [
     age: 15,
   },
   {
-    name: "Michael",
-    age: 25,
+    name: "Lisa",
+    age: 30,
   },
   {
-    name: "Lisa",
+    name: "Michael",
     age: 30,
   },
 ];
 const findLisa = (newArr, fn) =>
-  newArr.reduce((acc, person) => (fn(person) ? person : acc), null);
+  newArr.reduce(
+    (acc, person) => (acc === null && fn(person) ? person : acc),
+    null
+  );
 
 let fn1 = (obj) => {
   return obj.age === 30;
@@ -76,10 +79,13 @@ let fn1 = (obj) => {
 console.log(findLisa(friends, fn1));
 
 // findIndex;
-let arr = ["Stan", "Nick", "Costea"];
+let arr = ["Stan", "Nick", "Costea", "Costea"];
 
 const findIndex = (array, elem) =>
-  array.reduce((acc, curr, index) => (curr === elem ? index : acc), null);
+  array.reduce(
+    (acc, curr, index) => (acc === null && curr === elem ? index : acc),
+    null
+  );
 
 let name = "Costea";
 console.log(findIndex(arr, name));
@@ -93,10 +99,13 @@ const includes = (array, elem) =>
 console.log(includes(arr, 2));
 
 // indexOf;
-let arr = ["Stan", "Nick", "Costea"];
+let arr = ["Stan", "Nick", "Costea", "Stan"];
 
 const indexOf = (array, elem) =>
-  array.reduce((acc, curr, index) => (curr === elem ? index : acc), null);
+  array.reduce(
+    (acc, curr, index) => (acc === null && curr === elem ? index : acc),
+    null
+  );
 
 let name = "Stan";
 console.log(indexOf(arr, name));
@@ -104,9 +113,11 @@ console.log(indexOf(arr, name));
 // reverse;
 let arr = [1, 2, 3, 4];
 
-let reverse = (arr) => arr.reduce((acc, curr) => acc.unshift(curr) && acc, []);
+let reverseArray = (arr) =>
+  arr.reduce((acc, curr, i) => (i - 1 ? [curr, ...acc] : [curr, acc]));
 
-console.log(reverse(arr));
+console.log(reverseArray(arr));
+console.log(arr);
 
 // some;
 let arr = [-1, -1, -2, -2, -3];
