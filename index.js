@@ -10,14 +10,18 @@ fibo(7);
 // 2. Implementing with reduce
 
 //concat;
-let arr = [1, 2];
-let arr1 = [3, 4];
+const arr = [1, 2];
+const arr1 = [3, 4];
+const arr2 = 5;
 
-const concatFn = (...array) => {
-  return array.reduce((array, newEl) => [...array, ...newEl]);
-};
+const concatFn = (...array) =>
+  array.reduce((array, newEl) =>
+    array.constructor === Array ? [...array, ...newEl] : [...array, newEl]
+  );
 
 concatFn(arr, arr1);
+concatFn(arr1, arr2);
+console.log(`My new ${arr}`);
 
 //filter and map;
 
@@ -36,14 +40,20 @@ let friends = [
   },
 ];
 
-let adult = friends.reduce(function (newArr, person) {
-  if (person.age > 18) {
-    // newArr.push(person.name);
-    return [...newArr, person.name];
-  }
-  return newArr;
-}, []);
-console.log(adult);
+const filter = (newArr, fn) => {
+  return newArr.reduce(function (acc, person) {
+    if (fn(person)) {
+      return [...acc, person];
+    }
+    return acc;
+  }, []);
+};
+
+let fn1 = (obj) => {
+  return obj.age > 18;
+};
+
+console.log(filter(friends, fn1));
 
 // find;
 let friends = [
@@ -60,59 +70,81 @@ let friends = [
     age: 30,
   },
 ];
-let findLisa = friends.reduce((result, item) => {
-  if (item.age === 30) {
-    return item;
-  }
-  return result;
-}, null);
-console.log(findLisa);
+const findLisa = (newArr, fn) => {
+  return newArr.reduce(function (acc, person) {
+    if (fn(person)) {
+      return [...acc, person];
+    }
+    return acc;
+  }, []);
+};
+
+let fn1 = (obj) => {
+  return obj.age === 30;
+};
+
+console.log(findLisa(friends, fn1));
 
 // findIndex;
 let arr = ["Stan", "Nick", "Costea"];
 
-arr.reduce(function (acc, elem, index) {
-  if (elem === "Costea") {
-    return index;
-  }
-  return acc;
-}, null);
+const findIndex = (array, elem) => {
+  return array.reduce((acc, curr, index) => {
+    if (curr === elem) {
+      return index;
+    }
+    return acc;
+  }, null);
+};
+let name = "Costea";
+console.log(findIndex(arr, name));
 
 // includes;
 let arr = [1, 3, 4, 5];
 
-let includesTwo = arr.reduce((result, item) => {
-  if (item === 2) {
-    return true;
-  }
-  return result;
-}, false);
-console.log(includesTwo);
+const includes = (array, elem) => {
+  return array.reduce((acc, curr) => {
+    if (curr === elem) {
+      return true;
+    }
+    return acc;
+  }, false);
+};
+
+console.log(includes(arr, 2));
 
 // indexOf;
 let arr = ["Stan", "Nick", "Costea"];
 
-arr.reduce(function (acc, elem, index) {
-  if (elem === "Nick") {
-    return index;
-  }
-  return acc;
-}, null);
+const indexOf = (array, elem) => {
+  return array.reduce((acc, curr, index) => {
+    if (curr === elem) {
+      return index;
+    }
+    return acc;
+  }, null);
+};
+let name = "Stan";
+console.log(indexOf(arr, name));
 
 // reverse;
 let arr = [1, 2, 3, 4];
 console.log(arr.reduce((a, b) => [b, ...a], []));
 
 // some;
-let arr = [-1, -1, 2, -2, -3];
+let arr = [-1, -1, -2, -2, -3];
 
-let somePositive = arr.reduce((result, item) => {
-  if (item > 0) {
-    return true;
-  }
-  return result;
-}, false);
-console.log(somePositive);
+const some = (array, elem) => {
+  return array.reduce((acc, curr) => {
+    if (elem(curr)) {
+      return true;
+    }
+    return acc;
+  }, false);
+};
+
+let fn1 = (item) => item > 0;
+console.log(some(arr, fn1));
 
 //3. compose fn.
 
