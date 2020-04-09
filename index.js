@@ -67,7 +67,7 @@ let friends = [
   },
 ];
 const findLisa = (newArr, fn) =>
-  newArr.reduce((acc, person) => (fn(person) ? [...acc, person] : acc), []);
+  newArr.reduce((acc, person) => (fn(person) ? person : acc), null);
 
 let fn1 = (obj) => {
   return obj.age === 30;
@@ -103,7 +103,10 @@ console.log(indexOf(arr, name));
 
 // reverse;
 let arr = [1, 2, 3, 4];
-console.log(arr.reduce((a, b) => [b, ...a], []));
+
+let reverse = (arr) => arr.reduce((acc, curr) => acc.unshift(curr) && acc, []);
+
+console.log(reverse(arr));
 
 // some;
 let arr = [-1, -1, -2, -2, -3];
@@ -116,10 +119,10 @@ console.log(some(arr, fn1));
 
 //3. compose fn.
 
-compose = (fn1, fn2, fn3) => (value) => fn3(fn2(fn1(value)));
-let multTwo = (n) => n * 2;
-let multThree = (n) => n * 3;
-let addTwo = (n) => n + 2;
+let compose = (...fns) => (arr) => fns.reduce((acc, curr) => curr(acc), arr);
 
-let result = compose(multTwo, multThree, addTwo);
-result(2);
+let multTwo = (n) => n.map((elem) => elem * 2);
+let multThree = (n) => n.map((elem) => elem * 3);
+let addTwo = (n) => n.map((elem) => elem + 2);
+
+console.log(compose(multTwo, multThree, addTwo)([1, 2, 3]));
