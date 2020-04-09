@@ -14,13 +14,15 @@ const arr = [1, 2];
 const arr1 = [3, 4];
 const arr2 = 5;
 
-const concatFn = (...array) =>
-  array.reduce((array, newEl) =>
-    array.constructor === Array ? [...array, ...newEl] : [...array, newEl]
+const concatFn = (array, ...params) =>
+  params.reduce(
+    (acc, newEl) =>
+      Array.isArray(newEl) ? [...acc, ...newEl] : [...acc, newEl],
+    array
   );
 
-concatFn(arr, arr1);
-concatFn(arr1, arr2);
+console.log(concatFn(arr, arr1));
+console.log(concatFn(arr1, arr2));
 console.log(`My new ${arr}`);
 
 //filter and map;
@@ -40,14 +42,8 @@ let friends = [
   },
 ];
 
-const filter = (newArr, fn) => {
-  return newArr.reduce(function (acc, person) {
-    if (fn(person)) {
-      return [...acc, person];
-    }
-    return acc;
-  }, []);
-};
+const filter = (newArr, fn) =>
+  newArr.reduce((acc, person) => (fn(person) ? [...acc, person] : acc), []);
 
 let fn1 = (obj) => {
   return obj.age > 18;
@@ -70,14 +66,8 @@ let friends = [
     age: 30,
   },
 ];
-const findLisa = (newArr, fn) => {
-  return newArr.reduce(function (acc, person) {
-    if (fn(person)) {
-      return [...acc, person];
-    }
-    return acc;
-  }, []);
-};
+const findLisa = (newArr, fn) =>
+  newArr.reduce((acc, person) => (fn(person) ? [...acc, person] : acc), []);
 
 let fn1 = (obj) => {
   return obj.age === 30;
@@ -88,42 +78,26 @@ console.log(findLisa(friends, fn1));
 // findIndex;
 let arr = ["Stan", "Nick", "Costea"];
 
-const findIndex = (array, elem) => {
-  return array.reduce((acc, curr, index) => {
-    if (curr === elem) {
-      return index;
-    }
-    return acc;
-  }, null);
-};
+const findIndex = (array, elem) =>
+  array.reduce((acc, curr, index) => (curr === elem ? index : acc), null);
+
 let name = "Costea";
 console.log(findIndex(arr, name));
 
 // includes;
 let arr = [1, 3, 4, 5];
 
-const includes = (array, elem) => {
-  return array.reduce((acc, curr) => {
-    if (curr === elem) {
-      return true;
-    }
-    return acc;
-  }, false);
-};
+const includes = (array, elem) =>
+  array.reduce((acc, curr) => (curr === elem ? true : acc), false);
 
 console.log(includes(arr, 2));
 
 // indexOf;
 let arr = ["Stan", "Nick", "Costea"];
 
-const indexOf = (array, elem) => {
-  return array.reduce((acc, curr, index) => {
-    if (curr === elem) {
-      return index;
-    }
-    return acc;
-  }, null);
-};
+const indexOf = (array, elem) =>
+  array.reduce((acc, curr, index) => (curr === elem ? index : acc), null);
+
 let name = "Stan";
 console.log(indexOf(arr, name));
 
@@ -134,14 +108,8 @@ console.log(arr.reduce((a, b) => [b, ...a], []));
 // some;
 let arr = [-1, -1, -2, -2, -3];
 
-const some = (array, elem) => {
-  return array.reduce((acc, curr) => {
-    if (elem(curr)) {
-      return true;
-    }
-    return acc;
-  }, false);
-};
+const some = (array, elem) =>
+  array.reduce((acc, curr) => (elem(curr) ? true : acc), false);
 
 let fn1 = (item) => item > 0;
 console.log(some(arr, fn1));
